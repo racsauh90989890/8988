@@ -4,8 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Polla Mundialista · Octavos de Final · Amigos CENGOB 2026</title>
-<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<title>Pronósticos Semifinales · Amigos CENGOB 2026</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -14,608 +13,460 @@
   --rojo:#B03A2E;--rojo2:#fdecea;
   --azul:#1A4F72;--azul2:#e8f4fd;
   --gris:#2C3E50;--gris2:#f4f6f7;--gris3:#dde1e4;
-  --blanco:#fff;--texto:#1a1a2e;--texto2:#555;
-  --radio:10px;--sombra:0 2px 12px rgba(0,0,0,.08);
+  --texto:#1a1a2e;--texto2:#555;
+  --radio:12px;--sombra:0 2px 12px rgba(0,0,0,.08);
 }
 body{font-family:'Segoe UI',system-ui,sans-serif;background:#f0f2f5;color:var(--texto);min-height:100vh}
-.wrap{max-width:980px;margin:0 auto;padding:0 1rem 4rem}
-
-/* Header */
-header{background:var(--verde);color:#fff;padding:0}
-.header-inner{max-width:980px;margin:0 auto;padding:1.25rem 1.5rem;display:flex;align-items:center;gap:1rem}
-.header-ball{font-size:2.8rem;line-height:1;flex-shrink:0}
-.header-text h1{font-size:1.35rem;font-weight:700;letter-spacing:-.3px}
-.header-text p{font-size:.82rem;opacity:.78;margin-top:2px}
-.header-badge{margin-left:auto;background:var(--oro);color:#3d2200;font-size:.78rem;font-weight:700;padding:5px 14px;border-radius:20px;white-space:nowrap;flex-shrink:0}
-
-/* Tabs */
-.tabs{background:#fff;border-bottom:1px solid var(--gris3);position:sticky;top:0;z-index:100;box-shadow:0 1px 4px rgba(0,0,0,.06)}
-.tabs-inner{max-width:980px;margin:0 auto;display:flex;overflow-x:auto;scrollbar-width:none}
-.tabs-inner::-webkit-scrollbar{display:none}
-.tab-btn{padding:.75rem 1.1rem;font-size:.82rem;font-weight:600;white-space:nowrap;border:none;background:none;cursor:pointer;color:var(--texto2);border-bottom:3px solid transparent;transition:all .18s}
-.tab-btn:hover{color:var(--verde)}
-.tab-btn.active{color:var(--verde);border-bottom-color:var(--oro)}
-
-/* Pages */
-.page{display:none;animation:fadeUp .22s ease}
-.page.active{display:block}
-@keyframes fadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
-
-/* Cards */
-.card{background:#fff;border-radius:var(--radio);box-shadow:var(--sombra);padding:1.4rem;margin-top:1.2rem;border:1px solid var(--gris3)}
-.card-title{font-size:1rem;font-weight:700;display:flex;align-items:center;gap:.5rem;margin-bottom:1rem;color:var(--gris)}
-.card-title span.ico{font-size:1.3rem}
-
-/* Forms */
-.field{margin-bottom:.9rem}
-.field label{display:block;font-size:.8rem;font-weight:600;color:var(--texto2);margin-bottom:.35rem}
-.field input,.field select{width:100%;padding:.6rem .85rem;border:1.5px solid var(--gris3);border-radius:8px;font-size:.9rem;background:#fff;color:var(--texto);transition:border .15s}
-.field input:focus,.field select:focus{outline:none;border-color:var(--verde)}
-
-/* Buttons */
-.btn{display:inline-flex;align-items:center;gap:.4rem;padding:.65rem 1.4rem;border-radius:8px;font-size:.88rem;font-weight:600;cursor:pointer;border:1.5px solid transparent;transition:all .15s}
-.btn:active{transform:scale(.97)}
-.btn-primary{background:var(--verde);color:#fff;border-color:var(--verde)}
-.btn-primary:hover{background:#0d5239}
-.btn-oro{background:var(--oro);color:#3d2200;border-color:var(--oro)}
-.btn-oro:hover{background:#b8903f}
-.btn-outline{background:#fff;color:var(--gris);border-color:var(--gris3)}
-.btn-outline:hover{background:var(--gris2)}
-.btn-danger{background:var(--rojo2);color:var(--rojo);border-color:#f5c6c2}
-.btn-danger:hover{background:#fbddda}
-.btn-row{display:flex;gap:.7rem;justify-content:flex-end;margin-top:1rem;flex-wrap:wrap}
-
-/* Progress */
-.prog-wrap{background:var(--gris3);border-radius:20px;height:8px;overflow:hidden;margin:.5rem 0}
-.prog-bar{background:var(--verde2);height:8px;border-radius:20px;transition:width .35s}
-.prog-label{font-size:.8rem;color:var(--texto2)}
-
-/* Partidos grid */
-.partidos-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem;margin-top:1rem}
-.partido-card{border-radius:var(--radio);overflow:hidden;border:1px solid var(--gris3);background:#fff;transition:box-shadow .15s}
-.partido-card:hover{box-shadow:0 4px 16px rgba(0,0,0,.12)}
-.partido-head{padding:.5rem .9rem;color:#fff;font-size:.75rem;font-weight:700;display:flex;align-items:center;justify-content:space-between}
-.partido-num{background:rgba(255,255,255,.22);border-radius:12px;padding:2px 9px;font-size:.7rem}
-.partido-body{padding:.9rem 1rem}
-
-/* Versus row */
-.versus-row{display:flex;align-items:center;gap:.5rem;margin-bottom:.75rem}
-.equipo-bloque{flex:1;text-align:center}
-.equipo-nombre{font-size:.82rem;font-weight:700;color:var(--texto);line-height:1.2;margin-bottom:.3rem}
-.equipo-flag{font-size:1.4rem;display:block;margin-bottom:2px}
-.vs-sep{font-size:.9rem;font-weight:800;color:var(--gris3);flex-shrink:0;padding:0 4px}
-
-/* Score inputs */
-.score-row{display:flex;align-items:center;justify-content:center;gap:.5rem}
-.score-input{width:52px;height:44px;border:2px solid var(--gris3);border-radius:8px;font-size:1.3rem;font-weight:700;text-align:center;color:var(--texto);background:#fff;transition:border .15s;-moz-appearance:textfield}
-.score-input::-webkit-inner-spin-button,.score-input::-webkit-outer-spin-button{-webkit-appearance:none}
-.score-input:focus{outline:none;border-color:var(--verde);background:#f0faf3}
-.score-input.filled{border-color:var(--verde2);background:#f0faf3}
-.score-dash{font-size:1.3rem;font-weight:800;color:var(--gris3)}
-.estadio-lbl{font-size:.7rem;color:var(--texto2);text-align:center;margin-top:.5rem;opacity:.8}
-
-/* Review */
-.rev-partidos{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:.6rem;margin-top:.75rem}
-.rev-partido{background:var(--gris2);border-radius:8px;padding:.65rem .85rem;border:1px solid var(--gris3);font-size:.82rem}
-.rev-partido .rev-match{font-weight:700;color:var(--texto);margin-bottom:2px}
-.rev-partido .rev-score{color:var(--verde2);font-weight:800;font-size:.95rem}
-.rev-partido .rev-num{font-size:.7rem;color:var(--texto2)}
-
-/* Lista participantes */
-.part-list{border:1px solid var(--gris3);border-radius:var(--radio);overflow:hidden;margin-top:.75rem}
-.part-item{display:flex;align-items:center;gap:.85rem;padding:.8rem 1rem;border-bottom:1px solid var(--gris3)}
-.part-item:last-child{border-bottom:none}
-.part-item:nth-child(even){background:var(--gris2)}
-.avatar{width:36px;height:36px;border-radius:50%;background:var(--azul2);color:var(--azul);font-size:.8rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.part-info{flex:1;min-width:0}
-.part-name{font-size:.9rem;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.part-meta{font-size:.76rem;color:var(--texto2);margin-top:1px}
-.status-badge{font-size:.72rem;font-weight:700;padding:3px 10px;border-radius:12px;white-space:nowrap}
-.s-ok{background:#d4edda;color:#155724}
-.s-pend{background:#fff3cd;color:#856404}
-.btn-del{background:none;border:none;cursor:pointer;color:#aaa;font-size:1.1rem;padding:.2rem;line-height:1;border-radius:4px}
-.btn-del:hover{color:var(--rojo);background:var(--rojo2)}
-
-/* Stats strip */
-.stats-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:.75rem;margin-top:1rem}
-.stat-card{background:var(--gris2);border-radius:8px;padding:.9rem;text-align:center;border:1px solid var(--gris3)}
-.stat-num{font-size:1.6rem;font-weight:700;color:var(--verde)}
-.stat-lbl{font-size:.75rem;color:var(--texto2);margin-top:3px}
-
-/* Alerts */
-.alert{padding:.75rem 1rem;border-radius:8px;font-size:.85rem;margin-top:.75rem;display:flex;gap:.5rem;align-items:flex-start}
-.alert-warn{background:#fff3cd;color:#664d03;border:1px solid #ffd97e}
-.alert-ok{background:#d4edda;color:#155724;border:1px solid #a3d9b1}
-.alert-info{background:var(--azul2);color:var(--azul);border:1px solid #bee3f8}
-
-/* Pts boxes */
-.pts-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.75rem}
-.pts-box{border-radius:8px;padding:.85rem;border:1px solid}
-.pts-box .pts-val{font-size:1.5rem;font-weight:800;margin-bottom:3px}
-.pts-box .pts-lbl{font-size:.78rem;font-weight:700;margin-bottom:3px}
-.pts-box .pts-desc{font-size:.78rem;opacity:.85}
-
-/* Download */
-.dl-center{text-align:center;padding:2rem 1rem}
-.dl-trophy{font-size:4rem;margin-bottom:.75rem}
-.dl-title{font-size:1.2rem;font-weight:700;margin-bottom:.5rem}
-.dl-sub{font-size:.88rem;color:var(--texto2);margin-bottom:1.5rem;max-width:480px;margin-left:auto;margin-right:auto}
-
-/* Toast */
-.toast{position:fixed;bottom:1.5rem;right:1.5rem;background:var(--gris);color:#fff;padding:.75rem 1.25rem;border-radius:10px;font-size:.88rem;font-weight:600;z-index:999;transform:translateY(80px);opacity:0;transition:all .3s;pointer-events:none;max-width:320px}
-.toast.show{transform:translateY(0);opacity:1}
+.wrap{max-width:520px;margin:0 auto;padding:0 1rem 3rem}
+header{background:var(--verde);padding:1.4rem 1.2rem;text-align:center;color:#fff}
+header .ball{font-size:2.2rem;margin-bottom:.2rem}
+header h1{font-size:1.15rem;font-weight:700}
+header p{font-size:.8rem;opacity:.8;margin-top:2px}
+.card{background:#fff;border-radius:var(--radio);box-shadow:var(--sombra);padding:1.2rem;margin-top:1.1rem;border:1px solid var(--gris3)}
+.card-title{font-size:.95rem;font-weight:700;display:flex;align-items:center;gap:.5rem;margin-bottom:.9rem;color:var(--gris)}
+label{display:block;font-size:.8rem;font-weight:700;color:var(--texto2);margin-bottom:.35rem}
+select,input[type=text]{width:100%;padding:.65rem .8rem;border:1.5px solid var(--gris3);border-radius:8px;font-size:.92rem;background:#fff;color:var(--texto)}
+select:focus,input:focus{outline:none;border-color:var(--verde)}
+.al{padding:.7rem .95rem;border-radius:8px;font-size:.82rem;margin-bottom:.9rem;display:flex;gap:.5rem;align-items:flex-start;background:var(--azul2);color:var(--azul);border:1px solid #bee3f8}
+.leg{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.6rem}
+.leg span{font-size:.68rem;font-weight:700;padding:2px 8px;border-radius:8px}
+.legE{background:#1E8449;color:#fff}.legG{background:#F9CA24;color:#3d2200}.legF{background:#C0392B;color:#fff}
+.matchcard{border:1.5px solid var(--gris3);border-radius:var(--radio);overflow:hidden;margin-top:1rem}
+.mh{padding:.55rem .9rem;color:#fff;font-size:.78rem;font-weight:700;display:flex;justify-content:space-between;align-items:center}
+.mb{padding:1rem}
+.mvs{display:flex;align-items:center;gap:.6rem}
+.mteam{flex:1;text-align:center}
+.mflag{font-size:1.9rem;display:block;margin-bottom:2px}
+.mname{font-size:.85rem;font-weight:700}
+.mscore{display:flex;align-items:center;gap:.4rem;flex-shrink:0}
+.mscore input{width:56px;height:52px;text-align:center;font-size:1.5rem;font-weight:800;border:2px solid var(--gris3);border-radius:8px;-moz-appearance:textfield}
+.mscore input::-webkit-inner-spin-button,.mscore input::-webkit-outer-spin-button{-webkit-appearance:none}
+.mscore input:focus{outline:none;border-color:var(--verde);background:#f0faf3}
+.mdash{font-size:1.3rem;font-weight:800;color:var(--gris3)}
+.mmeta{font-size:.7rem;color:var(--texto2);text-align:center;margin-top:.65rem}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.4rem;width:100%;padding:.75rem 1.2rem;border-radius:9px;font-size:.9rem;font-weight:700;cursor:pointer;border:1.5px solid transparent;transition:all .15s;margin-top:.7rem}
+.btn:active{transform:scale(.98)}
+.btn-v{background:var(--verde);color:#fff}.btn-v:hover{background:#0d5239}
+.btn-o{background:var(--oro);color:#3d2200}.btn-o:hover{background:#b8903f}
+.btn-w{background:#25D366;color:#fff}.btn-w:hover{background:#1fb855}
+.btn-g{background:var(--gris2);color:var(--texto2);border-color:var(--gris3)}
+.btn-g:hover{background:#e8eaec}
+#formView{display:block}
+#reviewView{display:none}
+.rev-head{text-align:center;margin-bottom:.3rem}
+.rev-head .ic{font-size:1.6rem}
+.rev-head h2{font-size:1.05rem;font-weight:800;color:var(--gris);margin-top:.2rem}
+.rev-part{background:var(--gris2);border-radius:8px;padding:.7rem .9rem;margin:.9rem 0;text-align:center}
+.rev-part b{color:var(--verde);font-size:1rem}
+.rev-sub{font-size:.82rem;font-weight:700;color:var(--gris);margin:1rem 0 .5rem;display:flex;align-items:center;gap:.4rem}
+.rev-card{background:var(--gris2);border-radius:10px;padding:.85rem 1rem;margin-bottom:.65rem}
+.rev-match{font-size:.72rem;color:var(--texto2);margin-bottom:.2rem}
+.rev-teams{font-size:.92rem;font-weight:700;color:var(--texto)}
+.rev-score{font-size:1.35rem;font-weight:800;color:var(--verde2);margin-top:.25rem}
+.toast{position:fixed;bottom:1.4rem;left:50%;transform:translateX(-50%) translateY(80px);background:var(--gris);color:#fff;padding:.7rem 1.2rem;border-radius:10px;font-size:.85rem;font-weight:600;z-index:999;opacity:0;transition:all .3s;pointer-events:none;max-width:90%;text-align:center}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
 .toast.green{background:var(--verde2)}
-.toast.red{background:var(--rojo)}
-
-/* Octavos badge */
-.octavos-banner{background:linear-gradient(135deg,#0A3D2B 60%,#C8A050);border-radius:var(--radio);padding:1rem 1.4rem;display:flex;align-items:center;gap:1rem;margin-top:1.2rem;color:#fff}
-.ob-ico{font-size:2.5rem;flex-shrink:0}
-.ob-title{font-size:1.05rem;font-weight:700}
-.ob-sub{font-size:.8rem;opacity:.85;margin-top:2px}
-
-@media(max-width:600px){
-  .header-ball{font-size:2rem}
-  .header-text h1{font-size:1.05rem}
-  .partidos-grid{grid-template-columns:1fr}
-  .pts-grid{grid-template-columns:1fr 1fr}
-  .btn-row{justify-content:stretch}
-  .btn-row .btn{flex:1;justify-content:center}
-  .rev-partidos{grid-template-columns:1fr}
-}
+.err{color:var(--rojo);font-size:.78rem;margin-top:.5rem;display:none}
+.saved-note{font-size:.72rem;color:var(--texto2);text-align:center;margin-top:.6rem}
+.tabs{background:#fff;border-bottom:1px solid var(--gris3);position:sticky;top:0;z-index:100;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.tabs-inner{max-width:520px;margin:0 auto;display:flex}
+.tb{flex:1;padding:.75rem .5rem;font-size:.82rem;font-weight:700;border:none;background:none;cursor:pointer;color:var(--texto2);border-bottom:3px solid transparent;transition:all .18s}
+.tb.active{color:var(--verde);border-bottom-color:var(--oro)}
+.page{display:none}
+.page.active{display:block}
+.btn-x{background:#217346;color:#fff}.btn-x:hover{background:#1a5c38}
+.hist-row{display:flex;justify-content:space-between;align-items:center;padding:.5rem 0;border-bottom:1px solid var(--gris3);font-size:.85rem}
+.hist-row:last-child{border-bottom:none}
+.hist-lbl{color:var(--texto2)}
+.hist-val{font-weight:700;color:var(--gris)}
+.hist-bar{display:flex;height:10px;border-radius:6px;overflow:hidden;margin:.5rem 0 .3rem;background:var(--gris3)}
+.hb1{background:var(--azul)}.hb2{background:var(--gris3)}.hb3{background:var(--verde2)}
+.hist-legend{display:flex;justify-content:space-between;font-size:.68rem;color:var(--texto2);margin-bottom:.8rem}
+.timeline{border-left:2px solid var(--gris3);margin-left:.4rem;padding-left:.9rem}
+.tl-item{margin-bottom:.8rem;position:relative}
+.tl-item:before{content:'';position:absolute;left:-1.15rem;top:.25rem;width:9px;height:9px;border-radius:50%;background:var(--oro)}
+.tl-year{font-size:.72rem;font-weight:800;color:var(--verde)}
+.tl-txt{font-size:.83rem;color:var(--texto);margin-top:1px}
+.palmares{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-top:.3rem}
+.pcard{background:var(--gris2);border-radius:8px;padding:.7rem .8rem;border:1px solid var(--gris3)}
+.pcard .pf{font-size:1.4rem}
+.pcard .pn{font-size:.82rem;font-weight:700;margin-top:2px}
+.pcard .pt{font-size:.72rem;color:var(--texto2);margin-top:2px;line-height:1.35}
+.fact{display:flex;gap:.55rem;align-items:flex-start;padding:.55rem 0;border-bottom:1px solid var(--gris3);font-size:.83rem}
+.fact:last-child{border-bottom:none}
+.fact .fic{font-size:1rem;flex-shrink:0}
+.src{font-size:.65rem;color:#999;margin-top:.9rem;line-height:1.5}
 </style>
 </head>
 <body>
-
 <header>
-  <div class="header-inner">
-    <div class="header-ball">&#9917;</div>
-    <div class="header-text">
-      <h1>Polla Mundialista &middot; Octavos de Final 2026</h1>
-      <p>Amigos CENGOB</p>
-    </div>
-    <div class="header-badge">M&aacute;x. 24 pts</div>
-  </div>
+  <div class="ball">🏆</div>
+  <h1>Pronósticos Semifinales</h1>
+  <p>Amigos CENGOB &middot; Copa Mundial 2026</p>
 </header>
-
 <div class="tabs">
   <div class="tabs-inner">
-    <button class="tab-btn active" onclick="showTab('reg')">&#128100; Registro</button>
-    <button class="tab-btn" onclick="showTab('octavos')">&#127538; Octavos</button>
-    <button class="tab-btn" onclick="showTab('revision')">&#128203; Revisi&oacute;n</button>
-    <button class="tab-btn" onclick="showTab('lista')">&#128101; Participantes</button>
-    <button class="tab-btn" onclick="showTab('descarga')">&#11015;&#65039; Excel</button>
+    <button class="tb active" onclick="showTab('pron')">📝 Pronóstico</button>
+    <button class="tb" onclick="showTab('stats')">📊 Estadísticas</button>
   </div>
 </div>
-
 <div class="wrap">
 
-<!-- ══ REGISTRO ══════════════════════════════════════════════ -->
-<div id="tab-reg" class="page active">
+<!-- ============ TAB PRONÓSTICO ============ -->
+<div id="tab-pron" class="page active">
 
-  <div class="octavos-banner">
-    <div class="ob-ico">&#127538;</div>
-    <div>
-      <div class="ob-title">&#128282; Octavos de Final &mdash; Copa Mundial FIFA 2026</div>
-      <div class="ob-sub">8 partidos &bull; 4 al 7 de julio &bull; Solo 90 minutos reglamentarios</div>
-    </div>
-  </div>
-
+<!-- ============ FORMULARIO ============ -->
+<div id="formView">
   <div class="card">
-    <div class="card-title"><span class="ico">&#128100;</span> Ingresa tus datos</div>
-    <div class="field"><label>Nombre completo *</label>
-      <input type="text" id="inp-nombre" placeholder="Ej: Jos&eacute; Gonzales" autocomplete="off"></div>
-    <div class="field"><label>Apodo / Nickname (opcional)</label>
-      <input type="text" id="inp-unidad" placeholder="Ej: Tonchy Boy, Excelsiur..."></div>
-    <div id="alerta-reg"></div>
-    <div class="btn-row">
-      <button class="btn btn-primary" onclick="registrar()">Ir a pron&oacute;sticos &rarr;</button>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-title"><span class="ico">&#127381;</span> Sistema de puntuaci&oacute;n &ndash; Octavos de Final</div>
-    <div class="pts-grid">
-      <div class="pts-box" style="background:#fdecea;border-color:#f5c6c2">
-        <div class="pts-val" style="color:var(--rojo)">0</div>
-        <div class="pts-lbl" style="color:var(--rojo)">&#10060; Sin acierto</div>
-        <div class="pts-desc" style="color:#7b1d1d">No acertaste el resultado ni el ganador</div>
-      </div>
-      <div class="pts-box" style="background:#fff3cd;border-color:#ffd97e">
-        <div class="pts-val" style="color:#856404">1</div>
-        <div class="pts-lbl" style="color:#856404">&#128260; Ganador / Empate</div>
-        <div class="pts-desc" style="color:#664d03">Acertaste qui&eacute;n gana (o empate a 90') sin el marcador exacto</div>
-      </div>
-      <div class="pts-box" style="background:#d4edda;border-color:#a3d9b1">
-        <div class="pts-val" style="color:#155724">3</div>
-        <div class="pts-lbl" style="color:#155724">&#9989; Marcador exacto</div>
-        <div class="pts-desc" style="color:#155724">Acertaste el resultado exacto a 90' (ej. 2&ndash;1)</div>
+    <div class="card-title">🎭 ¿Quién eres?</div>
+    <label for="sel-jug">Selecciona tu nombre</label>
+    <select id="sel-jug" onchange="onPlayerChange()">
+      <option value="">-- Elige tu nombre --</option>
+    </select>
+    <div class="al" style="margin-top:.9rem">
+      Pronostica el marcador al <b>final de los 90 minutos</b> reglamentarios (sin prórroga ni penales) de cada semifinal.
+      <div class="leg">
+        <span class="legE">Exacto +3</span><span class="legG">Ganador/Empate +1</span><span class="legF">Fallo 0</span>
       </div>
     </div>
-    <div style="margin-top:.85rem;background:var(--oro2);border-radius:8px;padding:.8rem 1rem;border:1px solid #f0d48a;font-size:.85rem;color:#3d2200">
-      &#9203; <b>Solo se cuentan goles dentro de los 90 minutos reglamentarios.</b> Los goles en tiempo extra o penales no se contabilizan para el pron&oacute;stico.
+  </div>
+
+  <div class="matchcard">
+    <div class="mh" style="background:#1A3A5C">
+      <span>Semifinal 1 &middot; Mar 14/jul &middot; 15:00 ET</span>
     </div>
-    <div style="margin-top:.6rem;background:var(--azul2);border-radius:8px;padding:.8rem 1rem;border:1px solid #bee3f8;font-size:.85rem;font-weight:700;color:#1A4F72">
-      &#127942; M&aacute;ximo: 8 partidos &times; 3 pts = <span style="font-size:1rem">24 puntos</span>
-    </div>
-  </div>
-</div>
-
-<!-- ══ OCTAVOS ════════════════════════════════════════════════ -->
-<div id="tab-octavos" class="page">
-  <div class="card">
-    <div class="card-title"><span class="ico">&#127538;</span> Pron&oacute;sticos &ndash; Octavos de Final</div>
-    <div class="alert alert-info" style="margin-bottom:.85rem">Ingresa el <b>marcador exacto</b> al final de los 90 minutos reglamentarios. En caso de empate se define en tiempo extra o penales, pero tu pron&oacute;stico es solo para los 90 min.</div>
-    <div class="prog-wrap"><div class="prog-bar" id="prog-oct" style="width:0%"></div></div>
-    <div class="prog-label" id="prog-oct-lbl">0 de 8 partidos completados</div>
-  </div>
-  <div class="partidos-grid" id="partidos-oct-grid"></div>
-  <div class="btn-row" style="margin-top:1rem">
-    <button class="btn btn-outline" onclick="showTab('reg')">&larr; Volver</button>
-    <button class="btn btn-primary" onclick="irRevision()">Revisar apuesta &rarr;</button>
-  </div>
-</div>
-
-<!-- ══ REVISIÓN ══════════════════════════════════════════════ -->
-<div id="tab-revision" class="page">
-  <div class="card">
-    <div class="card-title"><span class="ico">&#128203;</span> Revisi&oacute;n de tu apuesta</div>
-    <div id="rev-nombre" style="font-size:.95rem;font-weight:700;margin-bottom:.75rem;color:var(--verde)"></div>
-    <div style="font-size:.85rem;font-weight:700;color:var(--texto2);margin-bottom:.5rem">&#127538; Pron&oacute;sticos Octavos de Final:</div>
-    <div class="rev-partidos" id="rev-partidos-oct"></div>
-  </div>
-  <div id="alerta-rev"></div>
-  <div class="btn-row">
-    <button class="btn btn-outline" onclick="showTab('octavos')">&larr; Corregir</button>
-    <button class="btn btn-primary" onclick="confirmarApuesta()">&#10003; Confirmar apuesta</button>
-  </div>
-</div>
-
-<!-- ══ PARTICIPANTES ══════════════════════════════════════════ -->
-<div id="tab-lista" class="page">
-  <div class="card">
-    <div class="card-title"><span class="ico">&#128101;</span> Participantes registrados</div>
-    <div class="stats-strip" id="stats-strip"></div>
-    <div id="part-list-wrap" style="margin-top:1rem"></div>
-  </div>
-  <div class="btn-row">
-    <button class="btn btn-outline" onclick="showTab('reg')">+ Nuevo participante</button>
-    <button class="btn btn-oro" onclick="showTab('descarga')">&#11015;&#65039; Descargar Excel</button>
-  </div>
-</div>
-
-<!-- ══ DESCARGA ═══════════════════════════════════════════════ -->
-<div id="tab-descarga" class="page">
-  <div class="card">
-    <div class="dl-center">
-      <div class="dl-trophy">&#127942;</div>
-      <div class="dl-title">Exportar pron&oacute;sticos a Excel</div>
-      <div class="dl-sub">Descarga el archivo con todos los pron&oacute;sticos de Octavos de Final. Cuando terminen los partidos, ingresa los resultados reales y el ranking se calcula autom&aacute;ticamente.</div>
-      <div id="alerta-dl"></div>
-      <button class="btn btn-primary" style="font-size:.95rem;padding:.85rem 2rem" onclick="descargarExcel()">
-        &#128196; Descargar Excel con todos los pron&oacute;sticos
-      </button>
+    <div class="mb">
+      <div class="mvs">
+        <div class="mteam"><span class="mflag">🇫🇷</span><div class="mname">Francia</div></div>
+        <div class="mscore">
+          <input type="number" id="s1-loc" min="0" max="20" placeholder="0">
+          <span class="mdash">&ndash;</span>
+          <input type="number" id="s1-vis" min="0" max="20" placeholder="0">
+        </div>
+        <div class="mteam"><span class="mflag">🇪🇸</span><div class="mname">España</div></div>
+      </div>
+      <div class="mmeta">📍 AT&amp;T Stadium · Arlington (Dallas)</div>
     </div>
   </div>
-  <div class="card">
-    <div class="card-title"><span class="ico">&#128196;</span> Instrucciones de uso</div>
-    <ol style="font-size:.88rem;line-height:1.85;padding-left:1.2rem;color:var(--texto2)">
-      <li>Cada participante abre la app y registra sus pron&oacute;sticos de octavos.</li>
-      <li>Al finalizar cada partido (4&ndash;7 julio), el organizador anota el resultado a 90 min.</li>
-      <li>Ingresa los resultados reales en la hoja <b>Resultados Reales Octavos</b>.</li>
-      <li>La hoja <b>Tabla de Puntos</b> calcula autom&aacute;ticamente el ranking.</li>
-    </ol>
-    <div class="alert alert-info" style="margin-top:.75rem">
-      <b>Nota:</b> Los datos se guardan en el navegador (<code>localStorage</code>). Clave de almacenamiento independiente de la fase de 16avos.
+
+  <div class="matchcard">
+    <div class="mh" style="background:#1A5276">
+      <span>Semifinal 2 &middot; Mié 15/jul &middot; 15:00 ET</span>
     </div>
+    <div class="mb">
+      <div class="mvs">
+        <div class="mteam"><span class="mflag">🇦🇷</span><div class="mname">Argentina</div></div>
+        <div class="mscore">
+          <input type="number" id="s2-loc" min="0" max="20" placeholder="0">
+          <span class="mdash">&ndash;</span>
+          <input type="number" id="s2-vis" min="0" max="20" placeholder="0">
+        </div>
+        <div class="mteam"><span class="mflag">🏴󠁧󠁢󠁥󠁮󠁧󠁿</span><div class="mname">Inglaterra</div></div>
+      </div>
+      <div class="mmeta">📍 Mercedes-Benz Stadium · Atlanta</div>
+    </div>
+  </div>
+
+  <div class="err" id="err-msg">⚠️ Completa tu nombre y el marcador de ambos partidos.</div>
+  <button class="btn btn-v" onclick="verRevision()">👁️ Ver mi pronóstico</button>
+</div>
+
+<!-- ============ REVISIÓN ============ -->
+<div id="reviewView">
+  <div class="card">
+    <div class="rev-head">
+      <div class="ic">📋</div>
+      <h2>Revisión de tu apuesta</h2>
+    </div>
+    <div class="rev-part">Participante: <b id="rev-nombre"></b></div>
+    <div class="rev-sub">🏆 Pronósticos Semifinales:</div>
+    <div id="rev-cards"></div>
+    <button class="btn btn-w" onclick="enviarWhatsapp()">📤 Enviar por WhatsApp</button>
+    <button class="btn btn-x" onclick="descargarExcel()">📥 Descargar Excel</button>
+    <button class="btn btn-o" onclick="guardarLocal()">💾 Guardar en este dispositivo</button>
+    <button class="btn btn-g" onclick="volverForm()">✏️ Editar pronóstico</button>
+    <div class="saved-note" id="saved-note"></div>
   </div>
 </div>
 
+</div><!-- /tab-pron -->
+
+<!-- ============ TAB ESTADÍSTICAS ============ -->
+<div id="tab-stats" class="page">
+  <div class="card">
+    <div class="card-title">📊 Estadísticas de Mundiales anteriores</div>
+    <div class="al">Datos históricos verificados para ayudarte a pronosticar las semifinales. No garantizan nada — el fútbol siempre sorprende ⚽</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🇫🇷 Francia vs 🇪🇸 España — historial directo</div>
+    <div class="hist-row"><span class="hist-lbl">Todas las competencias (38 duelos desde 1922)</span></div>
+    <div class="hist-bar"><div class="hb1" style="width:34%"></div><div class="hb2" style="width:18%"></div><div class="hb3" style="width:48%"></div></div>
+    <div class="hist-legend"><span>🇫🇷 Francia 13</span><span>Empates 7</span><span>🇪🇸 España 18</span></div>
+    <div class="hist-row"><span class="hist-lbl">Últimos 11 duelos (desde 2006)</span><span class="hist-val">España 7 · Francia 3 · Empates 1</span></div>
+    <div class="hist-row"><span class="hist-lbl">Único cruce previo en Mundiales</span><span class="hist-val">2006, octavos: Francia 3-1 España</span></div>
+    <div class="hist-row"><span class="hist-lbl">Cruce más reciente</span><span class="hist-val">Jun. 2025: España 5-4 Francia</span></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🇦🇷 Argentina vs 🏴󠁧󠁢󠁥󠁮󠁧󠁿 Inglaterra — historial directo</div>
+    <div class="hist-row"><span class="hist-lbl">En Mundiales (5 duelos)</span></div>
+    <div class="hist-bar"><div class="hb1" style="width:60%"></div><div class="hb2" style="width:20%"></div><div class="hb3" style="width:20%"></div></div>
+    <div class="hist-legend"><span>🏴󠁧󠁢󠁥󠁮󠁧󠁿 Inglaterra 3</span><span>Empates 1</span><span>🇦🇷 Argentina 1</span></div>
+    <div class="hist-row"><span class="hist-lbl">Todas las competencias (14 duelos)</span><span class="hist-val">Inglaterra 6 · Argentina 3 · Empates 5</span></div>
+    <div class="timeline" style="margin-top:.8rem">
+      <div class="tl-item"><div class="tl-year">1966 · Cuartos de final</div><div class="tl-txt">Inglaterra 1-0 Argentina (Wembley, sede local)</div></div>
+      <div class="tl-item"><div class="tl-year">1986 · Cuartos de final</div><div class="tl-txt">Argentina 2-1 Inglaterra — "Mano de Dios" y "Gol del Siglo" de Maradona (Ciudad de México)</div></div>
+      <div class="tl-item"><div class="tl-year">1998 · Octavos de final</div><div class="tl-txt">2-2 en los 90&#39;, Argentina avanza 4-3 en penales (Francia)</div></div>
+      <div class="tl-item"><div class="tl-year">2002 · Fase de grupos</div><div class="tl-txt">Inglaterra 1-0 Argentina — penal de David Beckham (Japón/Corea)</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🏆 Palmarés Mundial de los 4 semifinalistas</div>
+    <div class="palmares">
+      <div class="pcard"><div class="pf">🇦🇷</div><div class="pn">Argentina</div><div class="pt">3 títulos: 1978, 1986, 2022<br>2 subcampeonatos: 1990, 2014</div></div>
+      <div class="pcard"><div class="pf">🇫🇷</div><div class="pn">Francia</div><div class="pt">2 títulos: 1998, 2018<br>2 subcampeonatos: 2006, 2022</div></div>
+      <div class="pcard"><div class="pf">🇪🇸</div><div class="pn">España</div><div class="pt">1 título: 2010<br>2ª semifinal histórica (la otra fue 2010)</div></div>
+      <div class="pcard"><div class="pf">🏴󠁧󠁢󠁥󠁮󠁧󠁿</div><div class="pn">Inglaterra</div><div class="pt">1 título: 1966 (como local)<br>Semifinales en 1990 y 2018</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔎 Datos curiosos de esta llave</div>
+    <div class="fact"><span class="fic">⭐</span><span>La final de Qatar 2022 fue justamente Argentina vs Francia: 3-3 y Argentina campeón por penales (4-2). Ahora están en llaves separadas.</span></div>
+    <div class="fact"><span class="fic">🔥</span><span>Francia llega a su 3ª semifinal mundialista consecutiva (2018-2022-2026), algo que antes solo lograron Alemania y Brasil.</span></div>
+    <div class="fact"><span class="fic">📈</span><span>Es la primera vez en la historia que los 4 semifinalistas de un Mundial son los 4 primeros del ranking FIFA.</span></div>
+    <div class="fact"><span class="fic">🥅</span><span>De los 5 cruces Mundial Argentina-Inglaterra, 2 se definieron por un solo gol y 1 fue a penales — partidos históricamente cerrados.</span></div>
+    <div class="src">Fuentes: Sports Mole, Yahoo Sports/Sporting News, ESPN, FIFA.com, Bolavip, NBC New York, Al Jazeera, FOX Sports (julio 2026).</div>
+  </div>
 </div>
+
+</div><!-- /wrap -->
 <div class="toast" id="toast"></div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script>
-// ══ DATOS: OCTAVOS DE FINAL ══════════════════════════════════
-const PARTIDOS_OCT = [
-  {id:"o01",num:1,local:"Canadá",      visita:"Marruecos",  fecha:"Sáb 4/jul",  hora:"14:00 ET", estadio:"NRG Stadium · Houston",                color:"#922B21"},
-  {id:"o02",num:2,local:"Paraguay",    visita:"Francia",    fecha:"Sáb 4/jul",  hora:"18:00 ET", estadio:"Lincoln Financial Field · Filadelfia",  color:"#1A3A5C"},
-  {id:"o03",num:3,local:"Brasil",      visita:"Noruega",    fecha:"Dom 5/jul",  hora:"17:00 ET", estadio:"AT&T Stadium · Dallas",                 color:"#1E8449"},
-  {id:"o04",num:4,local:"México",      visita:"Inglaterra", fecha:"Dom 5/jul",  hora:"21:00 ET", estadio:"Estadio Azteca · Ciudad de México",     color:"#006847"},
-  {id:"o05",num:5,local:"Portugal",    visita:"España",     fecha:"Lun 6/jul",  hora:"16:00 ET", estadio:"SoFi Stadium · Los Ángeles",            color:"#C0392B"},
-  {id:"o06",num:6,local:"Estados Unidos",visita:"Bélgica",  fecha:"Lun 6/jul",  hora:"21:00 ET", estadio:"Lumen Field · Seattle",                 color:"#1A3A6C"},
-  {id:"o07",num:7,local:"Argentina",   visita:"Egipto",     fecha:"Mar 7/jul",  hora:"13:00 ET", estadio:"Mercedes-Benz Stadium · Atlanta",       color:"#1A5276"},
-  {id:"o08",num:8,local:"Suiza",       visita:"Colombia",   fecha:"Mar 7/jul",  hora:"17:00 ET", estadio:"BC Place · Vancouver",                  color:"#CB4335"},
+// =============================================================
+// NAV (Pronóstico / Estadísticas)
+// =============================================================
+function showTab(id){
+  document.querySelectorAll(".page").forEach(function(p){p.classList.remove("active");});
+  document.querySelectorAll(".tb").forEach(function(b){b.classList.remove("active");});
+  document.getElementById("tab-"+id).classList.add("active");
+  var order=["pron","stats"];
+  var i=order.indexOf(id);
+  if(i>=0) document.querySelectorAll(".tb")[i].classList.add("active");
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+// =============================================================
+// DATOS
+// =============================================================
+var PLAYERS = [
+  {nick:"Tonchy",   nombre:"Luis Antonio Kosovic Kaune"},
+  {nick:"Jose",     nombre:"José Antonio Gonzales Lopez"},
+  {nick:"Gaby",     nombre:"Gabriela Veizaga"},
+  {nick:"Paoquino", nombre:"Paola Jimena Quino Ramirez"},
+  {nick:"Julio",    nombre:"Julio Linares"},
+  {nick:"Brany",    nombre:"BRANY Mercado Hurtado"},
+  {nick:"Pablo",    nombre:"Pablo Cachaga Herrera"},
+  {nick:"Sdenka",   nombre:"Sdenka Claros Gomez"},
+  {nick:"racsauh",  nombre:"Huascar Mantilla Gutierrez"},
+  {nick:"Jorge",    nombre:"Jorge Rubin de Celis"},
+  {nick:"a66",      nombre:"Angel Gutierrez Gutierrez"},
+  {nick:"Gustavo",  nombre:"Gustavo Bonifaz"}
 ];
 
-const EQUIPOS_OCT = ["Argentina","Bélgica","Brasil","Canadá","Colombia","Egipto","España","Estados Unidos","Francia","Inglaterra","Marruecos","México","Noruega","Paraguay","Portugal","Suiza"];
+var MATCHES = [
+  {id:"s1", n:1, loc:"Francia",   vis:"España",    fecha:"Mar 14/jul", hora:"15:00 ET"},
+  {id:"s2", n:2, loc:"Argentina", vis:"Inglaterra",fecha:"Mié 15/jul", hora:"15:00 ET"}
+];
 
-// Estado
-let usuario = {nombre:"", unidad:""};
-let pronPartidos = {};
-let participantes = JSON.parse(localStorage.getItem("polla_oct_2026_v1")||"[]");
+var STORE_KEY = "cengob_semis_pron_2026";
 
-// ── Nav ──────────────────────────────────────────────────────
-const TAB_IDX = {reg:0,octavos:1,revision:2,lista:3,descarga:4};
-function showTab(id){
-  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
-  document.querySelectorAll(".tab-btn").forEach(b=>b.classList.remove("active"));
-  document.getElementById("tab-"+id).classList.add("active");
-  const idx=TAB_IDX[id];
-  if(idx!==undefined) document.querySelectorAll(".tab-btn")[idx].classList.add("active");
-  window.scrollTo({top:0,behavior:"smooth"});
-  if(id==="octavos") renderPartidosOct();
-  if(id==="revision") renderRevision();
-  if(id==="lista") renderLista();
+// =============================================================
+// INIT
+// =============================================================
+function initSelect(){
+  var sel = document.getElementById("sel-jug");
+  sel.innerHTML = "<option value=''>-- Elige tu nombre --</option>" +
+    PLAYERS.map(function(p){ return "<option value='"+p.nick+"'>🎭 "+p.nick+" ("+p.nombre+")</option>"; }).join("");
 }
 
-// ── Registro ─────────────────────────────────────────────────
-function registrar(){
-  const nombre = document.getElementById("inp-nombre").value.trim();
-  const unidad = document.getElementById("inp-unidad").value.trim();
-  const alerta = document.getElementById("alerta-reg");
-  if(!nombre){
-    alerta.innerHTML='<div class="alert alert-warn">&#9888;&#65039; Por favor ingresa tu nombre completo.</div>';return;
+function onPlayerChange(){
+  var nick = document.getElementById("sel-jug").value;
+  if(!nick) return;
+  var saved = getSaved(nick);
+  if(saved){
+    document.getElementById("s1-loc").value = saved.s1[0];
+    document.getElementById("s1-vis").value = saved.s1[1];
+    document.getElementById("s2-loc").value = saved.s2[0];
+    document.getElementById("s2-vis").value = saved.s2[1];
   }
-  if(participantes.find(p=>p.nombre.toLowerCase()===nombre.toLowerCase())){
-    alerta.innerHTML=`<div class="alert alert-warn">&#9888;&#65039; <b>${nombre}</b> ya registr&oacute; su apuesta. Ve a "Participantes" para verla.</div>`;return;
-  }
-  alerta.innerHTML="";
-  usuario={nombre,unidad};
-  pronPartidos={};
-  PARTIDOS_OCT.forEach(p=>{ pronPartidos[p.id]={gl:"",gv:""}; });
-  showTab("octavos");
 }
 
-// ── Partidos ─────────────────────────────────────────────────
-function renderPartidosOct(){
-  const grid=document.getElementById("partidos-oct-grid");
-  grid.innerHTML=PARTIDOS_OCT.map(p=>`
-    <div class="partido-card">
-      <div class="partido-head" style="background:${p.color}">
-        <span>&#9917; Partido ${p.num} &middot; ${p.fecha} &middot; ${p.hora}</span>
-        <span class="partido-num">#${String(p.num).padStart(2,"0")}</span>
-      </div>
-      <div class="partido-body">
-        <div class="versus-row">
-          <div class="equipo-bloque">
-            <span class="equipo-flag">${bandera(p.local)}</span>
-            <div class="equipo-nombre">${p.local}</div>
-          </div>
-          <div style="display:flex;flex-direction:column;align-items:center;gap:4px">
-            <span class="vs-sep">VS</span>
-            <div class="score-row">
-              <input type="number" class="score-input" id="gl-${p.id}" min="0" max="20"
-                placeholder="?" value="${pronPartidos[p.id]?.gl??""}"
-                oninput="setScore('${p.id}','gl',this.value)">
-              <span class="score-dash">&ndash;</span>
-              <input type="number" class="score-input" id="gv-${p.id}" min="0" max="20"
-                placeholder="?" value="${pronPartidos[p.id]?.gv??""}"
-                oninput="setScore('${p.id}','gv',this.value)">
-            </div>
-          </div>
-          <div class="equipo-bloque">
-            <span class="equipo-flag">${bandera(p.visita)}</span>
-            <div class="equipo-nombre">${p.visita}</div>
-          </div>
-        </div>
-        <div class="estadio-lbl">&#128205; ${p.estadio}</div>
-      </div>
-    </div>`).join("");
-  // Restaurar clases filled
-  PARTIDOS_OCT.forEach(p=>{
-    const gl=document.getElementById("gl-"+p.id);
-    const gv=document.getElementById("gv-"+p.id);
-    const d=pronPartidos[p.id];
-    if(gl&&d?.gl!=="") gl.classList.add("filled");
-    if(gv&&d?.gv!=="") gv.classList.add("filled");
-  });
-  actualizarProgOct();
+function getAll(){
+  return JSON.parse(localStorage.getItem(STORE_KEY) || "{}");
+}
+function getSaved(nick){
+  return getAll()[nick] || null;
 }
 
-function setScore(pid,campo,val){
-  if(!pronPartidos[pid]) pronPartidos[pid]={gl:"",gv:""};
-  const v=val===""?"":Math.max(0,parseInt(val)||0);
-  pronPartidos[pid][campo]=v===""?"":String(v);
-  const el=document.getElementById((campo==="gl"?"gl-":"gv-")+pid);
-  if(el){ if(v!=="") el.value=v; el.classList.toggle("filled",v!==""); }
-  actualizarProgOct();
-}
+// =============================================================
+// VALIDACIÓN Y REVISIÓN
+// =============================================================
+function verRevision(){
+  var nick = document.getElementById("sel-jug").value;
+  var s1l = document.getElementById("s1-loc").value;
+  var s1v = document.getElementById("s1-vis").value;
+  var s2l = document.getElementById("s2-loc").value;
+  var s2v = document.getElementById("s2-vis").value;
+  var err = document.getElementById("err-msg");
 
-function actualizarProgOct(){
-  const ok=PARTIDOS_OCT.filter(p=>{
-    const d=pronPartidos[p.id];
-    return d&&d.gl!==""&&d.gv!=="";
-  }).length;
-  const pct=Math.round(ok/8*100);
-  document.getElementById("prog-oct").style.width=pct+"%";
-  document.getElementById("prog-oct-lbl").textContent=`${ok} de 8 partidos completados`;
-}
-
-function irRevision(){
-  const faltantes=PARTIDOS_OCT.filter(p=>{
-    const d=pronPartidos[p.id];
-    return !d||d.gl===""||d.gv==="";
-  });
-  if(faltantes.length){
-    toast("Faltan "+faltantes.length+" partido(s): "+faltantes.slice(0,3).map(p=>"P"+p.num).join(", ")+(faltantes.length>3?"...":""),"red");
+  if(!nick || s1l==="" || s1v==="" || s2l==="" || s2v===""){
+    err.style.display = "block";
     return;
   }
-  showTab("revision");
-}
+  err.style.display = "none";
 
-// ── Revisión ─────────────────────────────────────────────────
-function renderRevision(){
-  document.getElementById("rev-nombre").textContent=
-    "Participante: "+usuario.nombre+(usuario.unidad?` 🎭 «${usuario.unidad}»`:"");
+  var player = PLAYERS.find(function(p){return p.nick===nick;});
+  document.getElementById("rev-nombre").textContent = player.nombre;
 
-  document.getElementById("rev-partidos-oct").innerHTML=PARTIDOS_OCT.map(p=>{
-    const d=pronPartidos[p.id];
-    const gl=d?.gl??"?"; const gv=d?.gv??"?";
-    const ok=(gl!==""&&gv!=="");
-    return `<div class="rev-partido">
-      <div class="rev-num">Partido ${p.num} &middot; ${p.fecha}</div>
-      <div class="rev-match">${p.local} vs ${p.visita}</div>
-      <div class="rev-score">${ok?gl+" &ndash; "+gv:'<span style="color:#aaa">Sin ingresar</span>'}</div>
-    </div>`;
+  var picks = {s1:[+s1l,+s1v], s2:[+s2l,+s2v]};
+  document.getElementById("rev-cards").innerHTML = MATCHES.map(function(m){
+    var pk = picks[m.id];
+    return "<div class='rev-card'>"+
+      "<div class='rev-match'>Semifinal "+m.n+" &middot; "+m.fecha+"</div>"+
+      "<div class='rev-teams'>"+m.loc+" vs "+m.vis+"</div>"+
+      "<div class='rev-score'>"+pk[0]+" &ndash; "+pk[1]+"</div>"+
+    "</div>";
   }).join("");
-  document.getElementById("alerta-rev").innerHTML="";
+
+  window._currentPick = {nick:nick, nombre:player.nombre, picks:picks};
+  document.getElementById("saved-note").textContent = "";
+  document.getElementById("formView").style.display = "none";
+  document.getElementById("reviewView").style.display = "block";
+  window.scrollTo({top:0,behavior:"smooth"});
 }
 
-function confirmarApuesta(){
-  const entrada={
-    nombre:usuario.nombre,
-    unidad:usuario.unidad,
-    fecha:new Date().toLocaleString("es-BO"),
-    partidos:{}
-  };
-  PARTIDOS_OCT.forEach(p=>{
-    entrada.partidos[p.id]={
-      gl:pronPartidos[p.id]?.gl??"",
-      gv:pronPartidos[p.id]?.gv??""
-    };
+function volverForm(){
+  document.getElementById("formView").style.display = "block";
+  document.getElementById("reviewView").style.display = "none";
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+// =============================================================
+// GUARDAR / ENVIAR
+// =============================================================
+function guardarLocal(){
+  var c = window._currentPick;
+  if(!c) return;
+  var all = getAll();
+  all[c.nick] = c.picks;
+  localStorage.setItem(STORE_KEY, JSON.stringify(all));
+  document.getElementById("saved-note").textContent = "✅ Guardado en este dispositivo · " + new Date().toLocaleTimeString("es-BO");
+  toast("Pronóstico guardado", "green");
+}
+
+function buildTexto(){
+  var c = window._currentPick;
+  var lines = [];
+  lines.push("📋 *Revisión de tu apuesta*");
+  lines.push("");
+  lines.push("Participante: *"+c.nombre+"*");
+  lines.push("");
+  lines.push("🏆 Pronósticos Semifinales:");
+  MATCHES.forEach(function(m){
+    var pk = c.picks[m.id];
+    lines.push("");
+    lines.push("Semifinal "+m.n+" · "+m.fecha);
+    lines.push(m.loc+" vs "+m.vis);
+    lines.push(pk[0]+" – "+pk[1]);
   });
-  participantes.push(entrada);
-  localStorage.setItem("polla_oct_2026_v1",JSON.stringify(participantes));
-  toast("¡Apuesta guardada! "+usuario.nombre,"green");
-  usuario={nombre:"",unidad:""};
-  pronPartidos={};
-  document.getElementById("inp-nombre").value="";
-  document.getElementById("inp-unidad").value="";
-  showTab("lista");
+  return lines.join("\n");
 }
 
-// ── Lista ────────────────────────────────────────────────────
-function renderLista(){
-  const completos=participantes.filter(p=>
-    PARTIDOS_OCT.every(pt=>p.partidos?.[pt.id]?.gl!==""&&p.partidos?.[pt.id]?.gv!=="")
-  ).length;
-
-  document.getElementById("stats-strip").innerHTML=`
-    <div class="stat-card"><div class="stat-num">${participantes.length}</div><div class="stat-lbl">Participantes</div></div>
-    <div class="stat-card"><div class="stat-num">${completos}</div><div class="stat-lbl">Completos</div></div>
-    <div class="stat-card"><div class="stat-num">${participantes.length-completos}</div><div class="stat-lbl">Incompletos</div></div>
-    <div class="stat-card"><div class="stat-num">${Math.round(completos/Math.max(participantes.length,1)*100)}%</div><div class="stat-lbl">Participaci&oacute;n</div></div>`;
-
-  const wrap=document.getElementById("part-list-wrap");
-  if(participantes.length===0){
-    wrap.innerHTML='<div style="text-align:center;padding:2rem;color:var(--texto2);font-size:.9rem">Ningún participante registrado aún.</div>';return;
-  }
-  wrap.innerHTML=`<div class="part-list">${participantes.map((p,i)=>{
-    const init=p.nombre.split(" ").slice(0,2).map(w=>w[0]||"").join("").toUpperCase();
-    const ok=PARTIDOS_OCT.every(pt=>p.partidos?.[pt.id]?.gl!==""&&p.partidos?.[pt.id]?.gv!=="");
-    const nick=p.unidad?` 🎭 ${p.unidad}`:"";
-    return `<div class="part-item">
-      <div class="avatar">${init}</div>
-      <div class="part-info">
-        <div class="part-name">${p.nombre}${nick}</div>
-        <div class="part-meta">${p.fecha}</div>
-      </div>
-      <span class="status-badge ${ok?"s-ok":"s-pend"}">${ok?"Completo":"Incompleto"}</span>
-      <button class="btn-del" onclick="eliminar(${i})" title="Eliminar">&#128465;&#65039;</button>
-    </div>`;
-  }).join("")}</div>`;
+function enviarWhatsapp(){
+  guardarLocal();
+  var texto = encodeURIComponent(buildTexto());
+  window.open("https://wa.me/?text="+texto, "_blank");
 }
 
-function eliminar(idx){
-  if(!confirm("¿Eliminar la apuesta de "+participantes[idx].nombre+"?"))return;
-  participantes.splice(idx,1);
-  localStorage.setItem("polla_oct_2026_v1",JSON.stringify(participantes));
-  renderLista();
-  toast("Participante eliminado");
+// =============================================================
+// DESCARGAR EXCEL (misma estructura que Polla_Semifinales_CENGOB_2026_*.xlsx)
+// =============================================================
+function matchFormulaParts(predLocalCol, predAwayCol, realRow){
+  var PL = "'Pronósticos Semifinales'!"+predLocalCol+"2";
+  var PV = "'Pronósticos Semifinales'!"+predAwayCol+"2";
+  var RL = "'Resultados Reales Semifinales'!F"+realRow;
+  var RV = "'Resultados Reales Semifinales'!G"+realRow;
+  var exact = "AND("+PL+'<>"",'+RL+'<>"",'+PL+"="+RL+","+PV+"="+RV+")";
+  var outcome = "OR(AND("+PL+">"+PV+","+RL+">"+RV+"),AND("+PV+">"+PL+","+RV+">"+RL+"),AND("+PL+"="+PV+","+RL+"="+RV+"))";
+  var ganador = "AND("+PL+'<>"",'+RL+'<>"",NOT('+exact+"),"+outcome+")";
+  var fallo = "AND("+PL+'<>"",'+RL+'<>"",NOT('+exact+"),NOT("+ganador+"))";
+  var pts = "IF("+exact+",3,IF("+ganador+",1,0))";
+  return {exact:exact, ganador:ganador, fallo:fallo, pts:pts};
 }
 
-// ── Toast ────────────────────────────────────────────────────
-function toast(msg,tipo){
-  const t=document.getElementById("toast");
-  t.textContent=msg;t.className="toast"+(tipo?" "+tipo:"");
-  t.classList.add("show");
-  setTimeout(()=>t.classList.remove("show"),3200);
-}
-
-// ── Banderas ─────────────────────────────────────────────────
-function bandera(e){
-  const f={
-    "Argentina":"🇦🇷","Bélgica":"🇧🇪","Brasil":"🇧🇷","Canadá":"🇨🇦",
-    "Colombia":"🇨🇴","Egipto":"🇪🇬","España":"🇪🇸","Estados Unidos":"🇺🇸",
-    "Francia":"🇫🇷","Inglaterra":"🏴󠁧󠁢󠁥󠁮󠁧󠁿","Marruecos":"🇲🇦","México":"🇲🇽",
-    "Noruega":"🇳🇴","Paraguay":"🇵🇾","Portugal":"🇵🇹","Suiza":"🇨🇭"
-  };
-  return f[e]||"🏳️";
-}
-
-// ── Excel ─────────────────────────────────────────────────────
 function descargarExcel(){
-  const dlEl=document.getElementById("alerta-dl");
-  if(participantes.length===0){
-    dlEl.innerHTML='<div class="alert alert-warn">&#9888;&#65039; No hay participantes registrados.</div>';return;
-  }
-  dlEl.innerHTML="";
-  const wb=XLSX.utils.book_new();
+  var c = window._currentPick;
+  if(!c || typeof XLSX==="undefined"){ toast("No se pudo generar el Excel","red"); return; }
 
-  // Hoja 1: Pronósticos Octavos
-  const h1=["#","Nombre","Apodo/Nickname","Fecha"];
-  PARTIDOS_OCT.forEach(p=>{h1.push(`O${p.num} – ${p.local}`);h1.push(`O${p.num} – ${p.visita}`);});
-  const r1=participantes.map((p,i)=>{
-    const row=[i+1,p.nombre,p.unidad||"",p.fecha];
-    PARTIDOS_OCT.forEach(pt=>{
-      row.push(p.partidos?.[pt.id]?.gl??"");
-      row.push(p.partidos?.[pt.id]?.gv??"");
-    });
-    return row;
-  });
-  const ws1=XLSX.utils.aoa_to_sheet([h1,...r1]);
-  ws1["!cols"]=[{wch:4},{wch:28},{wch:20},{wch:20},...PARTIDOS_OCT.flatMap(()=>[{wch:10},{wch:10}])];
-  XLSX.utils.book_append_sheet(wb,ws1,"Pronósticos Octavos");
+  var wb = XLSX.utils.book_new();
 
-  // Hoja 2: Resultados Reales (para llenar)
-  const h2=["Partido","Fecha","Local","Visitante","Goles Local REAL (90')","Goles Visitante REAL (90')","Estadio","Hora"];
-  const r2=PARTIDOS_OCT.map(p=>[`Octavo ${p.num}`,p.fecha,p.local,p.visita,"","",p.estadio,p.hora]);
-  const ws2=XLSX.utils.aoa_to_sheet([h2,...r2]);
-  ws2["!cols"]=[{wch:12},{wch:12},{wch:18},{wch:18},{wch:22},{wch:24},{wch:30},{wch:10}];
-  XLSX.utils.book_append_sheet(wb,ws2,"Resultados Reales Octavos");
+  // Hoja 1: Pronósticos Semifinales
+  var pronHeaders = ["#","Nombre","Apodo/Nickname","Fecha",
+    "S1 – Francia","S1 – España","S2 – Argentina","S2 – Inglaterra"];
+  var pronRow = [1, c.nombre, c.nick, new Date().toLocaleString("es-BO"),
+    c.picks.s1[0], c.picks.s1[1], c.picks.s2[0], c.picks.s2[1]];
+  var wsPron = XLSX.utils.aoa_to_sheet([pronHeaders, pronRow]);
+  wsPron["!cols"] = [{wch:4},{wch:26},{wch:14},{wch:20},{wch:12},{wch:12},{wch:12},{wch:14}];
+  XLSX.utils.book_append_sheet(wb, wsPron, "Pronósticos Semifinales");
 
-  // Hoja 3: Tabla de Puntos con fórmulas
-  const h3=["#","Nombre","Apodo/Nickname","Pts TOTAL","Exactos (×3)","Ganador/Empate (×1)","Fallos"];
+  // Hoja 2: Resultados Reales Semifinales
+  var resHeaders = ["Partido","Fecha","Hora (ET)","Local","Visitante",
+    "Goles Local REAL (90 min)","Goles Visitante REAL (90 min)","Estadio"];
+  var resRows = [
+    ["Semifinal 1","Mar 14/jul","15:00 ET","Francia","España","","","AT&T Stadium · Arlington (Dallas)"],
+    ["Semifinal 2","Mié 15/jul","15:00 ET","Argentina","Inglaterra","","","Mercedes-Benz Stadium · Atlanta"]
+  ];
+  var wsRes = XLSX.utils.aoa_to_sheet([resHeaders].concat(resRows));
+  wsRes["!cols"] = [{wch:14},{wch:12},{wch:14},{wch:14},{wch:14},{wch:16},{wch:18},{wch:30}];
+  XLSX.utils.book_append_sheet(wb, wsRes, "Resultados Reales Semifinales");
 
-  const r3=participantes.map((p,pi)=>{
-    const fila=pi+2;
-    let fPts="", fExactos="", fGanador="", fFallos="";
+  // Hoja 3: Tabla de Puntos (con fórmulas, igual que el archivo original)
+  var s1 = matchFormulaParts("E","F",2);
+  var s2 = matchFormulaParts("G","H",3);
+  var totalF = "="+s1.pts+"+"+s2.pts;
+  var exactF = "=IF("+s1.exact+",1,0)+IF("+s2.exact+",1,0)";
+  var ganadorF = "=IF("+s1.ganador+",1,0)+IF("+s2.ganador+",1,0)";
+  var falloF = "=IF("+s1.fallo+",1,0)+IF("+s2.fallo+",1,0)";
 
-    PARTIDOS_OCT.forEach((pt,li)=>{
-      const colGL=XLSX.utils.encode_col(4+li*2);
-      const colGV=XLSX.utils.encode_col(5+li*2);
-      const filaRes=li+2;
-      const pGL=`'Pronósticos Octavos'!${colGL}${fila}`;
-      const pGV=`'Pronósticos Octavos'!${colGV}${fila}`;
-      const rGL=`'Resultados Reales Octavos'!E${filaRes}`;
-      const rGV=`'Resultados Reales Octavos'!F${filaRes}`;
+  var ptsHeaders = ["#","Nombre","Apodo/Nickname","Pts TOTAL","Exactos (x3)","Ganador/Empate (x1)","Fallos"];
+  var wsPts = XLSX.utils.aoa_to_sheet([ptsHeaders, [1, c.nombre, c.nick, null, null, null, null]]);
+  wsPts["D2"] = {t:"n", f: totalF.slice(1), v:0};
+  wsPts["E2"] = {t:"n", f: exactF.slice(1), v:0};
+  wsPts["F2"] = {t:"n", f: ganadorF.slice(1), v:0};
+  wsPts["G2"] = {t:"n", f: falloF.slice(1), v:0};
+  wsPts["!ref"] = "A1:G2";
+  wsPts["!cols"] = [{wch:4},{wch:26},{wch:14},{wch:12},{wch:12},{wch:16},{wch:10}];
+  XLSX.utils.book_append_sheet(wb, wsPts, "Tabla de Puntos");
 
-      const esExacto=`AND(${pGL}<>"",${rGL}<>"",${pGL}=${rGL},${pGV}=${rGV})`;
-      const esGanadorLocal=`AND(${pGL}>${pGV},${rGL}>${rGV})`;
-      const esGanadorVisita=`AND(${pGV}>${pGL},${rGV}>${rGL})`;
-      const esEmpate=`AND(${pGL}=${pGV},${rGL}=${rGV})`;
-      const aciertoGanador=`AND(${pGL}<>"",${rGL}<>"",NOT(${esExacto}),OR(${esGanadorLocal},${esGanadorVisita},${esEmpate}))`;
-
-      const sep=li>0?"+":"";
-      fPts+=`${sep}IF(${esExacto},3,IF(${aciertoGanador},1,0))`;
-      fExactos+=`${sep}IF(${esExacto},1,0)`;
-      fGanador+=`${sep}IF(${aciertoGanador},1,0)`;
-      fFallos+=`${sep}IF(AND(${pGL}<>"",${rGL}<>"",NOT(${esExacto}),NOT(${aciertoGanador})),1,0)`;
-    });
-
-    return [pi+1,p.nombre,p.unidad||"",{f:fPts},{f:fExactos},{f:fGanador},{f:fFallos}];
-  });
-
-  const ws3=XLSX.utils.aoa_to_sheet([h3,...r3]);
-  ws3["!cols"]=[{wch:4},{wch:28},{wch:20},{wch:12},{wch:14},{wch:18},{wch:10}];
-  XLSX.utils.book_append_sheet(wb,ws3,"Tabla de Puntos");
-
-  const fecha=new Date().toISOString().slice(0,10);
-  XLSX.writeFile(wb,`Polla_Octavos_CENGOB_2026_${fecha}.xlsx`);
-  dlEl.innerHTML=`<div class="alert alert-ok">&#10003; Excel descargado con <b>${participantes.length} participante${participantes.length===1?"":"s"}</b>.</div>`;
+  var fname = "Polla_Semifinales_CENGOB_2026_"+c.nick.replace(/[^A-Za-z0-9]/g,"")+".xlsx";
+  XLSX.writeFile(wb, fname);
+  toast("Excel descargado: "+fname, "green");
 }
 
-// ── Init ─────────────────────────────────────────────────────
-renderLista();
+function toast(msg,tipo){
+  var t = document.getElementById("toast");
+  t.textContent = msg; t.className = "toast"+(tipo?" "+tipo:"");
+  t.classList.add("show");
+  setTimeout(function(){ t.classList.remove("show"); }, 3000);
+}
+
+// =============================================================
+initSelect();
 </script>
 </body>
 </html>
